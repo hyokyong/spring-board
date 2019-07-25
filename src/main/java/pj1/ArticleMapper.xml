@@ -22,7 +22,7 @@
         FROM article a LEFT JOIN user u ON a.a_writer = u.u_id
         WHERE a_id = #{a_id}
     </select>
-
+    
     <insert id="insert" useGeneratedKeys="true" keyProperty="a_id">
         INSERT article (loginId, passwd, name, email, userType, departmentId)
         VALUES (#{loginId}, #{passwd}, #{name}, #{email#}, #{userType}, #{departmentId})

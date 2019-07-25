@@ -1,5 +1,7 @@
 package pj1;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ArticleController {
 
 	@Autowired ArticleMapper articleMapper;
+	@Autowired CommentMapper commentMapper;
     @Autowired UserMapper userMapper;
     @Autowired DepartmentMapper departmentMapper;
     @Autowired TypeMapper typeMapper;
@@ -26,24 +29,21 @@ public class ArticleController {
         return "list";
     }
     
-    @RequestMapping(value="reading.do") //method = RequestMethod.GET)
-    public String reading(@RequestParam("id") int id, Pagination pagination, Model model) {
+    @RequestMapping(value="reading.do", method = RequestMethod.GET)
+    public String reading(@RequestParam("id") int id, Pagination pagination, Comment comment, Model model) {
     	Article a = articleMapper.selectByAid(id);
+    	List<Comment> c = commentMapper.selectByAid(id);
         model.addAttribute("article", a);
+        model.addAttribute("list", c);
+        
         return "reading";
     }
 
-  //  @RequestMapping(value="reading.do", method = RequestMethod.POST)
-//    public String reading(User user, Pagination pagination, Model model) {
-       // String message = userService.validateBeforeUpdate(user);
-      //  if (message == null) {
-       //     userMapper.update(user);
-       //     model.addAttribute("success", "저장했습니다.");
-       // } else
-       //     model.addAttribute("error", message);
-      //  model.addAttribute("departments", departmentMapper.selectAll());
-  //      return "reading";
-  //  }
+    @RequestMapping(value="reading.do", method = RequestMethod.POST)
+    public String reading(Comment comment, Model model) {
+        commentMapper.insert(comment);
+        return "reading";
+    }
 
 
 

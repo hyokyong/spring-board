@@ -4,17 +4,18 @@ import java.sql.Timestamp;
 
 public class Comment {
 
-	int id;
+	int c_id;
 	String c_writer;
 	String c_content;
 	Timestamp timestamp;
 	int a_id;
+	String u_name;
 	
-	public int getId() {
-		return id;
+	public int getC_id() {
+		return c_id;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setC_id(int c_id) {
+		this.c_id = c_id;
 	}
 	public String getC_writer() {
 		return c_writer;
@@ -40,6 +41,13 @@ public class Comment {
 	public void setA_id(int a_id) {
 		this.a_id = a_id;
 	}
+	public String getU_name() {
+		return u_name;
+	}
+	public void setU_name(String u_name) {
+		this.u_name = u_name;
+	}
+	
 	
 	
 }

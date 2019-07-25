@@ -14,7 +14,7 @@
 <body>
 <div class="container">
 
-    <form method="get">
+   <form:form method="post" modelAttribute="comment">
 
     <table class="table table-bordered">
         <thead>
@@ -31,13 +31,33 @@
         </tbody>
     </table>
     
-    <div>
+    <table class="table table-bordered">
+            <tbody>
+            <c:forEach var="comment" items="${ list }">
+                <tr>
+                    <td>${ comment.u_name }</td>
+                    <td>${ comment.timestamp }</td>
+                </tr>
+                <tr>   
+                    <td>${ comment.c_content }</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+    </table>
+
+ 	
+        <form:input path="c_content" />
+        <div>
+            <input type="submit" class="btn btn-primary" value="등록" />
+        </div>
+    
+    
+     	<div>
             <a href="write.do" class="btn">글쓰기</a>
             <a href="list.do?${ pagination.queryString }" class="btn">목록으로 나가기</a>
-    </div>
-
+    	</div>
    
-</form>
+</form:form>
 
   <!--  <c:if test="${ not empty error }">
         <div class="alert alert-error">${ error }</div>

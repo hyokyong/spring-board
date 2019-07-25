@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+             "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pj1.CommentMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="c_id">
+        INSERT comment (c_writer, c_content, a_id)
+        VALUES (#{c_writer}, #{c_content}, #{a_id})
+    </insert>
+
+    <update id="update">
+        UPDATE comment
+        SET c_content = #{c_content}
+        WHERE c_id = #{c_id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM comment WHERE c_id = #{c_id}
+    </delete>
+    
+    <select id="selectByAid" resultType="pj1.Comment">
+    SELECT c.*, u.u_name
+	FROM comment c LEFT JOIN user u ON c.c_writer = u.u_id
+	WHERE c.a_id = #{a_id}
+	</select>
+
+</mapper>
