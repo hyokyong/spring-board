@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+             "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pj1.UserMapper">
+
+    <select id="selectByUid" resultType="pj1.User">
+        SELECT *
+        FROM user
+        WHERE u_id = #{u_id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT user (u_id, u_passwd, u_name, u_email, t_id, d_id)
+        VALUES (#{u_id}, #{u_passwd}, #{u_name}, #{u_email}, #{t_id}, #{d_id})
+    </insert>
+
+    <update id="update">
+        UPDATE [User] SET
+            loginId = #{loginId},
+            name = #{name},
+            email = #{email},
+            userType = #{userType},
+            departmentId = #{departmentId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM [User] WHERE id = #{id}
+    </delete>
+
+</mapper>
