@@ -24,18 +24,32 @@
         });
     });
 </script>
+
+
 </head>
+
 <body>
+<%@ include file="/WEB-INF/views/include/menu.jsp" %>
 
 <div class="container">
 
-<h1>게시판 목록</h1>
+<c:if test="${ pagination.bd == 1 }">
+        <h1>공지사항</h1>
+</c:if>
+<c:if test="${ pagination.bd == 2 }">
+        <h1>자유게시판</h1>
+</c:if>
+<c:if test="${ pagination.bd == 3 }">
+        <h1>사원목록</h1>
+</c:if>
 <hr />
 
 <form method="get">
     <input type="hidden" name="pg" value="1" />
+    <input type="hidden" name="bd" value="${ pagination.bd }" />
 
     <table class="table table-bordered">
+    <c:if test="${ pagination.bd == 1 || pagination.bd == 2 }">
         <thead>
             <tr>
                 <th>번호</th>
@@ -56,6 +70,30 @@
                 </tr>
             </c:forEach>
         </tbody>
+    </c:if>
+    
+    <c:if test="${ pagination.bd == 3 }">
+    <thead>
+            <tr>
+                <th>사원번호</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>부서</th>
+                <th>직급</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach var="user" items="${ list }">
+                <tr>
+                    <td>${ user.u_id }</td>
+                    <td>${ user.u_name }</td>
+                    <td>${ user.u_email }</td>
+                    <td>${ user.d_name }</td>
+                    <td>${ user.t_name }</td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </c:if>
     </table>
 
     <div class="pagination pagination-small pagination-centered">
@@ -68,5 +106,6 @@
 </form>
 
 </div>
+<%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </body>
 </html>

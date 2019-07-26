@@ -22,10 +22,17 @@ public class ArticleController {
     //목록
     @RequestMapping("list.do")
     public String list(Model model, Pagination pagination) {
-        pagination.setRecordCount(articleMapper.selectCount());
-        pagination.setStart(pagination.getPg());
+    	pagination.setStart(pagination.getPg());
         pagination.setEnd(pagination.getSz(), pagination.getPg());
-        model.addAttribute("list", articleMapper.selectPage(pagination));
+    	
+    	if(pagination.getBd() == 1 || pagination.getBd() == 2){
+    		pagination.setRecordCount(articleMapper.selectCount(pagination.getBd()));
+    		model.addAttribute("list", articleMapper.selectPage(pagination));
+    	}
+    	else{
+    		pagination.setRecordCount(userMapper.selectCount());
+    		model.addAttribute("list", userMapper.selectPage(pagination));
+    	}
         return "list";
     }
     
@@ -40,7 +47,7 @@ public class ArticleController {
     }
 
     @RequestMapping(value="reading.do", method = RequestMethod.POST)
-    public String reading(Comment comment, Model model) {
+    public String reading(Comment comment, Pagination pagination, Model model) {
         commentMapper.insert(comment);
         return "reading";
     }

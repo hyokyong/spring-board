@@ -10,6 +10,7 @@ public class Pagination {
     int start;
     int end;
     int recordCount;
+    int boardId;
 
     public int getCurrentPage() {
         return currentPage;
@@ -51,7 +52,15 @@ public class Pagination {
         this.recordCount = recordCount;
     }
 
-    /* query string과 같은 이름의 메소드들 구현 */
+    public int getBoardId() {
+		return boardId;
+	}
+
+	public void setBoardId(int boardId) {
+		this.boardId = boardId;
+	}
+
+	/* query string과 같은 이름의 메소드들 구현 */
     public int getPg() {
         return currentPage;
     }
@@ -67,10 +76,18 @@ public class Pagination {
     public void setSz(int pageSize) {
         this.pageSize = pageSize;
     }
+    
+    public int getBd() {
+        return boardId;
+    }
+
+    public void setBd(int boardId) {
+        this.boardId = boardId;
+    }
 
     /* 멤버 변수 값들을 quey string으로 출력하기 위한 메소드 */
     public String getQueryString() {
-        return String.format("pg=%d&sz=%d", currentPage, pageSize);
+        return String.format("pg=%d&sz=%d&bd=%d", currentPage, pageSize, boardId);
     }
 
     /* 화면 하단에 페이지 번호 링크들을 출력하기 위한 메소드와 클래스 */

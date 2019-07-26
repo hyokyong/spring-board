@@ -7,14 +7,16 @@
     <select id="selectPage" resultType="pj1.Article">
         SELECT a.*, u.u_name
         FROM article a LEFT JOIN user u ON a.a_writer = u.u_id
+        WHERE a.b_id = #{boardId}
         group by a.a_id
-        order by a.timestamp desc
+        order by a.a_id desc
         limit #{start}, #{end}    
     </select>
 
     <select id="selectCount" resultType="int">
         SELECT COUNT(*)
         FROM article
+        WHERE b_id = #{boardId}
     </select>
     
     <select id="selectByAid" resultType="pj1.Article">

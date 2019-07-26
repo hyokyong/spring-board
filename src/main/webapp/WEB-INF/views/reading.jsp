@@ -10,12 +10,17 @@
 <style>
     label { margin-top: 20px; }
 </style>
+
 </head>
 <body>
+
+<%@ include file="/WEB-INF/views/include/menu.jsp" %>
+
 <div class="container">
 
    <form:form method="post" modelAttribute="comment">
 
+	<!-- 본문 -->
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -31,6 +36,7 @@
         </tbody>
     </table>
     
+    <!-- 댓글목록 -->
     <table class="table table-bordered">
             <tbody>
             <c:forEach var="comment" items="${ list }">
@@ -45,7 +51,7 @@
             </tbody>
     </table>
 
- 	
+ 	<!-- 댓글등록 -->
         <form:input path="c_content" />
         <div>
             <input type="submit" class="btn btn-primary" value="등록" />
@@ -54,7 +60,7 @@
     
      	<div>
             <a href="write.do" class="btn">글쓰기</a>
-            <a href="list.do?${ pagination.queryString }" class="btn">목록으로 나가기</a>
+            <a href="list.do?${ pagination.queryString }" class="btn">목록</a>
     	</div>
    
 </form:form>
@@ -66,6 +72,7 @@
         <div class="alert alert-success">${ success }</div>
     </c:if>   -->
 
+	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </div>
 </body>
 </html>

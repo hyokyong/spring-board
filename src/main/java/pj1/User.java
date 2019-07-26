@@ -10,6 +10,8 @@ public class User {
 	int manager;
 	int t_id;
 	int d_id;
+	String t_name;
+	String d_name;
 	
 	public int getId() {
 		return id;
@@ -59,6 +61,19 @@ public class User {
 	public void setD_id(int d_id) {
 		this.d_id = d_id;
 	}
+	public String getT_name() {
+		return t_name;
+	}
+	public void setT_name(String t_name) {
+		this.t_name = t_name;
+	}
+	public String getD_name() {
+		return d_name;
+	}
+	public void setD_name(String d_name) {
+		this.d_name = d_name;
+	}
+	
 	
 	
 

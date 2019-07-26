@@ -4,10 +4,29 @@
 
 <mapper namespace="pj1.UserMapper">
 
+    <select id="selectById" resultType="pj1.User">
+        SELECT *
+        FROM user
+        WHERE id = #{id}
+    </select>
+    
     <select id="selectByUid" resultType="pj1.User">
         SELECT *
         FROM user
         WHERE u_id = #{u_id}
+    </select>
+    
+    <select id="selectPage" resultType="pj1.User">
+        SELECT u.*, t.t_name, d.d_name
+        FROM (user u LEFT JOIN type t ON u.t_id = t.t_id) LEFT JOIN department d ON u.d_id = d.d_id
+        group by u.u_id
+        order by u.u_id
+        limit #{start}, #{end}    
+    </select>
+
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(*)
+        FROM user
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
@@ -16,17 +35,20 @@
     </insert>
 
     <update id="update">
-        UPDATE [User] SET
-            loginId = #{loginId},
-            name = #{name},
-            email = #{email},
-            userType = #{userType},
-            departmentId = #{departmentId}
+        UPDATE user
+        SET u_id = #{u_id},
+            u_passwd = #{u_passwd},
+            u_name = #{u_name},
+            u_email = #{u_email},
+            t_id = #{t_id},
+            d_id = #{d_id}
         WHERE id = #{id}
     </update>
 
     <delete id="delete">
         DELETE FROM [User] WHERE id = #{id}
     </delete>
+    
+    
 
 </mapper>
