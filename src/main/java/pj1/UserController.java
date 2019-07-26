@@ -25,14 +25,16 @@ public class UserController {
 
     //회원가입
     @RequestMapping(value="join.do", method = RequestMethod.GET)
-    public String join(User user, Model model) {
+    public String join(Model model) {
+    	User user = new User();
+    	model.addAttribute("user", user);
     	model.addAttribute("departments", departmentMapper.selectAll());
     	model.addAttribute("types", typeMapper.selectAll());
     	return "join";
     }
 
     @RequestMapping(value="join.do", method = RequestMethod.POST)
-    public String join2(User user, Model model) {
+    public String join(User user, Model model) {
         
     	String message = userService.validate(user);
         if (message == null) {

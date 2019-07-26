@@ -19,8 +19,6 @@ public class ArticleController {
     @Autowired TypeMapper typeMapper;
     @Autowired UserService userService;
     
-    User u = UserService.getCurrentUser();
-
     //목록
     @RequestMapping("list.do")
     public String list(Model model, Pagination pagination) {
@@ -38,39 +36,43 @@ public class ArticleController {
         return "list";
     }
     
-    //글읽기
+    //글읽기 + 댓글쓰기
     @RequestMapping(value="reading.do", method = RequestMethod.GET)
-    public String reading(@RequestParam("id") int id, Pagination pagination, Comment comment, Model model) {
+    public String reading(@RequestParam("id") int id, Pagination pagination, Model model) {
     	Article a = articleMapper.selectByAid(id);
     	List<Comment> c = commentMapper.selectByAid(id);
-    	if(u.getU_id() != a.getA_writer()){
+    	Comment comment = new Comment();
+    	if(UserService.getCurrentUser().getU_id() != a.getA_writer()){
     		articleMapper.updateClick(id);
     	}
         model.addAttribute("article", a);
         model.addAttribute("list", c);
+        model.addAttribute("comment", comment);
         
         return "reading";
     }
 
     @RequestMapping(value="reading.do", method = RequestMethod.POST)
-    public String reading(Comment comment, Pagination pagination, Model model) {
-        commentMapper.insert(comment);
-        return "reading";
+    public String reading(@RequestParam("aid") String aid, Comment comment, Pagination pagination, Model model) {
+        comment.setA_id(aid);
+        comment.setC_writer(UserService.getCurrentUser().getU_id());
+    	commentMapper.insert(comment);
+        return "redirect:reading.do?id="+aid+"&"+pagination.getQueryString();
     }
     
     //글쓰기
     @RequestMapping(value="write.do", method=RequestMethod.GET)
     public String write(Model model, Pagination pagination) {
+    	Article article = new Article();
+    	model.addAttribute("article", article);
         return "write";
     }
 
     @RequestMapping(value="write.do", method=RequestMethod.POST)
     public String write(Model model, Pagination pagination, Article article) {
-        article.setB_id(pagination.getBoardId());
-        article.setA_writer(u.getU_id());
-        System.out.println("dmd");
+    	article.setB_id(pagination.getBd());
+        article.setA_writer(UserService.getCurrentUser().getU_id());
         articleMapper.insert(article);
-        System.out.println("아아아");
         return "redirect:list.do?bd=" + pagination.getBd();
     }
 

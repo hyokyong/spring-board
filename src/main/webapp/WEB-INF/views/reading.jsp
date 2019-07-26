@@ -18,8 +18,10 @@
 
 <div class="container">
 
-   <form:form method="post" modelAttribute="comment">
+<form:form method="post" modelAttribute="comment">
 
+	<input type="hidden" name="aid" value="${ article.a_id }" />
+	
 	<!-- 본문 -->
     <table class="table table-bordered">
         <thead>
@@ -52,18 +54,19 @@
     </table>
 
  	<!-- 댓글등록 -->
-        <form:input path="c_content" />
+        <form:textarea path="c_content"/>
+        
         <div>
             <input type="submit" class="btn btn-primary" value="등록" />
         </div>
-    
+</form:form>
     
      	<div>
             <a href="write.do" class="btn">글쓰기</a>
             <a href="list.do?${ pagination.queryString }" class="btn">목록</a>
     	</div>
    
-</form:form>
+
 
   <!--  <c:if test="${ not empty error }">
         <div class="alert alert-error">${ error }</div>
