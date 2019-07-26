@@ -5,6 +5,7 @@
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:jee="http://www.springframework.org/schema/jee"
     xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:sec="http://www.springframework.org/schema/security"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
         http://www.springframework.org/schema/context
@@ -12,9 +13,13 @@
         http://www.springframework.org/schema/jee
         http://www.springframework.org/schema/jee/spring-jee-4.1.xsd
         http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">
+        http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+        
 
     <context:component-scan base-package="pj1" />
+    <sec:global-method-security secured-annotations="enabled" />
 
     <bean id="viewResolver"
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">

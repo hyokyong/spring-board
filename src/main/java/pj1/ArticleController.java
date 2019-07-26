@@ -18,6 +18,8 @@ public class ArticleController {
     @Autowired DepartmentMapper departmentMapper;
     @Autowired TypeMapper typeMapper;
     @Autowired UserService userService;
+    
+    User u = UserService.getCurrentUser();
 
     //목록
     @RequestMapping("list.do")
@@ -36,10 +38,14 @@ public class ArticleController {
         return "list";
     }
     
+    //글읽기
     @RequestMapping(value="reading.do", method = RequestMethod.GET)
     public String reading(@RequestParam("id") int id, Pagination pagination, Comment comment, Model model) {
     	Article a = articleMapper.selectByAid(id);
     	List<Comment> c = commentMapper.selectByAid(id);
+    	if(u.getU_id() != a.getA_writer()){
+    		articleMapper.updateClick(id);
+    	}
         model.addAttribute("article", a);
         model.addAttribute("list", c);
         
@@ -51,6 +57,23 @@ public class ArticleController {
         commentMapper.insert(comment);
         return "reading";
     }
+    
+    //글쓰기
+    @RequestMapping(value="write.do", method=RequestMethod.GET)
+    public String write(Model model, Pagination pagination) {
+        return "write";
+    }
+
+    @RequestMapping(value="write.do", method=RequestMethod.POST)
+    public String write(Model model, Pagination pagination, Article article) {
+        article.setB_id(pagination.getBoardId());
+        article.setA_writer(u.getU_id());
+        System.out.println("dmd");
+        articleMapper.insert(article);
+        System.out.println("아아아");
+        return "redirect:list.do?bd=" + pagination.getBd();
+    }
+
 
 
 

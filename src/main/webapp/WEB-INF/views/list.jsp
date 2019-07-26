@@ -48,8 +48,8 @@
     <input type="hidden" name="pg" value="1" />
     <input type="hidden" name="bd" value="${ pagination.bd }" />
 
-    <table class="table table-bordered">
     <c:if test="${ pagination.bd == 1 || pagination.bd == 2 }">
+	<table class="table table-bordered">
         <thead>
             <tr>
                 <th>번호</th>
@@ -70,9 +70,14 @@
                 </tr>
             </c:forEach>
         </tbody>
+    </table>
+    
+    <a href="write.do?${ pagination.queryString }" class="btn">글쓰기</a>
     </c:if>
     
+    
     <c:if test="${ pagination.bd == 3 }">
+    <table class="table table-bordered">
     <thead>
             <tr>
                 <th>사원번호</th>
@@ -93,8 +98,9 @@
                 </tr>
             </c:forEach>
         </tbody>
-    </c:if>
     </table>
+    </c:if>
+  
 
     <div class="pagination pagination-small pagination-centered">
         <ul>
@@ -103,6 +109,7 @@
             </c:forEach>
         </ul>
     </div>
+    
 </form>
 
 </div>

@@ -12,6 +12,7 @@ public class User {
 	int d_id;
 	String t_name;
 	String d_name;
+	String u_passwdck;
 	
 	public int getId() {
 		return id;
@@ -73,6 +74,13 @@ public class User {
 	public void setD_name(String d_name) {
 		this.d_name = d_name;
 	}
+	public String getU_passwdck() {
+		return u_passwdck;
+	}
+	public void setU_passwdck(String u_passwdck) {
+		this.u_passwdck = u_passwdck;
+	}
+	
 	
 	
 	

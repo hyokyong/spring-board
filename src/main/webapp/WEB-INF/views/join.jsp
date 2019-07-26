@@ -6,15 +6,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="http://netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet">
-<title>bbs1</title>
+<title>pj1</title>
 <style>
     label { margin-top: 20px; }
 </style>
 </head>
 
 <body>
-
-<%@ include file="/WEB-INF/views/include/menu.jsp" %>
 
 <div class="container">
 
@@ -47,8 +45,7 @@
         <hr />
 
         <div>
-            <input type="submit" class="btn btn-primary" value="저장" /> <!-- 로그인화면으로이동 -->
-            <a href="list.do?bd=1" class="btn">목록으로 나가기</a>
+            <input type="submit" class="btn btn-primary" value="저장" />
         </div>
     </form:form>
 
@@ -59,7 +56,6 @@
         <div class="alert alert-success">${ success }</div>
     </c:if>
 
-	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </div>
 </body>
 </html>

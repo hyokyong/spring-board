@@ -25,9 +25,15 @@
         WHERE a_id = #{a_id}
     </select>
     
+    <update id="updateClick">
+        UPDATE article
+        SET a_click = a_click + 1
+        WHERE a_id = #{a_id}
+    </update>
+    
     <insert id="insert" useGeneratedKeys="true" keyProperty="a_id">
-        INSERT article (loginId, passwd, name, email, userType, departmentId)
-        VALUES (#{loginId}, #{passwd}, #{name}, #{email#}, #{userType}, #{departmentId})
+        INSERT article (a_title, a_writer, a_content, b_id)
+        VALUES (#{a_title}, #{a_writer}, #{a_content}, #{b_id})
     </insert>
 
     <update id="update">

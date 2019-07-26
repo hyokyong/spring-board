@@ -37,11 +37,11 @@
     <update id="update">
         UPDATE user
         SET u_id = #{u_id},
-            u_passwd = #{u_passwd},
-            u_name = #{u_name},
-            u_email = #{u_email},
-            t_id = #{t_id},
-            d_id = #{d_id}
+        u_passwd = #{u_passwd},
+        u_name = #{u_name},
+        u_email = #{u_email},
+        t_id = #{t_id},
+        d_id = #{d_id}
         WHERE id = #{id}
     </update>
 

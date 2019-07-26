@@ -14,36 +14,39 @@
 <body>
 <div class="container">
 
-    <h1>사용자 정보 수정</h1>
+    <h1>마이페이지</h1>
     <hr />
 
     <form:form method="post" modelAttribute="user">
 
-        <label>로그인ID</label>
-        <form:input path="loginId" />
+        <label>사원번호</label>
+        <form:input path="u_id" />
 
+		<label>비밀번호 재설정</label>
+        <form:input path="u_passwd" type="password" />
+        
+        <label>비밀번호 확인</label>
+        <form:input path="u_passwdck" type="password" />
+        
         <label>이름</label>
-        <form:input path="name" />
+        <form:input path="u_name" />
 
         <label>이메일</label>
-        <form:input path="email" />
+        <form:input path="u_email" />
 
-        <label>사용자 유형</label>
-        <form:select path="userType">
-            <form:option value="관리자" />
-            <form:option value="교수" />
-            <form:option value="학생" />
+         <label>부서</label>
+        <form:select path="d_id">
+            <form:options itemValue="d_id" itemLabel="d_name" items="${ departments }" />
         </form:select>
 
-        <label>학과</label>
-        <form:select path="departmentId">
-            <form:options itemValue="id" itemLabel="departmentName" items="${ departments }" />
+        <label>직급</label>
+        <form:select path="t_id">
+            <form:options itemValue="t_id" itemLabel="t_name" items="${ types }" />
         </form:select>
         <hr />
 
         <div>
             <input type="submit" class="btn btn-primary" value="저장" />
-            <a href="list.do" class="btn">목록으로 나가기</a>
         </div>
     </form:form>
 

@@ -6,7 +6,7 @@ public class Article {
 
 	int a_id;
 	String a_title;
-	int a_writer;
+	String a_writer;
 	String a_content;
 	Timestamp timestamp;
 	int a_click;
@@ -26,10 +26,10 @@ public class Article {
 	public void setA_title(String a_title) {
 		this.a_title = a_title;
 	}
-	public int getA_writer() {
+	public String getA_writer() {
 		return a_writer;
 	}
-	public void setA_writer(int a_writer) {
+	public void setA_writer(String a_writer) {
 		this.a_writer = a_writer;
 	}
 	public String getA_content() {

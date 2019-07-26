@@ -11,7 +11,7 @@
                     <li><a href="mypage.do"> 마이페이지 </a></li>
                 </ul>
                 <ul class="nav pull-right">
-                    <li><a href="#">로그인</a></li> <!-- 일단두기....흠 -->
+                    <li><a href="logout.do">로그아웃</a></li>
                 </ul>
             </div>
         </div>
