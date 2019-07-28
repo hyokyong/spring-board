@@ -28,17 +28,11 @@ public class ArticleController {
     	
     	//게시판
         if(pagination.getBd() == 1 || pagination.getBd() == 2){
-        	System.out.println(pagination.getSs());
-        	System.out.println(pagination.getSt());
-        	System.out.println("띄고");
     		pagination.setRecordCount(articleMapper.selectCount(pagination));
     		model.addAttribute("list", articleMapper.selectPage(pagination));
     	}
         //사원목록
     	else{
-    		System.out.println(pagination.getSs());
-    		System.out.println(pagination.getSt());
-    		System.out.println("끝");
     		pagination.setRecordCount(userMapper.selectCount(pagination));
     		model.addAttribute("list", userMapper.selectPage(pagination));
     	}

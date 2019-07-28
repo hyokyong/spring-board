@@ -5,25 +5,23 @@
 <mapper namespace="pj1.ArticleMapper">
 
     <select id="selectPage" resultType="pj1.Article">
-    <![CDATA[
         SELECT a.*, u.u_name
         FROM article a LEFT JOIN user u ON a.a_writer = u.u_id
         WHERE ( (#{srchType} = 0) OR
-                (#{srchType} = 1 AND (INSTR(a.a_title, #{srchText}) > 0 OR INSTR(a.a_content, #{srchText}) > 0)) OR
-                (#{srchType} = 2 AND INSTR(u.u_name, #{srchText}) = 1) )
+                (#{srchType} = 1 AND (a.a_title LIKE CONCAT('%', #{srchText}, '%') OR a.a_content LIKE CONCAT('%', #{srchText}, '%'))) OR
+                (#{srchType} = 2 AND u.u_name = #{srchText}) )
               AND a.b_id = #{boardId}
         group by a.a_id
         order by a.a_id desc
         limit #{start}, #{end}  
-     ]]>  
     </select>
     
     <select id="selectCount" resultType="int">
         SELECT COUNT(*)
         FROM article a LEFT JOIN user u ON a.a_writer = u.u_id
-        WHERE ( (#{srchType} = 0) OR
-                (#{srchType} = 1 AND (INSTR(a.a_title, #{srchText}) > 0 OR INSTR(a.a_content, #{srchText}) > 0)) OR
-                (#{srchType} = 2 AND INSTR(u.u_name, #{srchText}) = 1) )
+         WHERE ( (#{srchType} = 0) OR
+                 (#{srchType} = 1 AND (a.a_title LIKE CONCAT('%', #{srchText}, '%') OR a.a_content LIKE CONCAT('%', #{srchText}, '%'))) OR
+                 (#{srchType} = 2 AND u.u_name = #{srchText}) )
               AND a.b_id = #{boardId}
     </select>
    

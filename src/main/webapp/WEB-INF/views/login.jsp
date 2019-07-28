@@ -12,7 +12,7 @@
 </style>
 </head>
 
-<h1>PJ1 인트라망 로그인</h1>
+<h1>PJ1 인트라넷 로그인</h1>
 <hr />
 
 <form method="POST" action="login_processing.do">
