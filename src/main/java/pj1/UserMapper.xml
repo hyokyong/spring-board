@@ -19,6 +19,11 @@
     <select id="selectPage" resultType="pj1.User">
         SELECT u.*, t.t_name, d.d_name
         FROM (user u LEFT JOIN type t ON u.t_id = t.t_id) LEFT JOIN department d ON u.d_id = d.d_id
+        WHERE (#{srchType} = 0) OR
+              (#{srchType} = 1 AND INSTR(u.u_id, #{srchText}) = 1) OR
+              (#{srchType} = 2 AND INSTR(u.u_name, #{srchText}) = 1) OR
+              (#{srchType} = 3 AND INSTR(t.t_name, #{srchText}) = 1) OR
+              (#{srchType} = 4 AND INSTR(d.d_name, #{srchText}) = 1)
         group by u.u_id
         order by u.u_id
         limit #{start}, #{end}    
@@ -26,7 +31,12 @@
 
     <select id="selectCount" resultType="int">
         SELECT COUNT(*)
-        FROM user
+        FROM (user u LEFT JOIN type t ON u.t_id = t.t_id) LEFT JOIN department d ON u.d_id = d.d_id
+        WHERE ((#{srchType} = 0) OR
+              (#{srchType} = 1 AND INSTR(u.u_id, #{srchText}) = 1) OR
+              (#{srchType} = 2 AND INSTR(u.u_name, #{srchText}) = 1) OR
+              (#{srchType} = 3 AND INSTR(t.t_name, #{srchText}) = 1) OR
+              (#{srchType} = 4 AND INSTR(d.d_name, #{srchText}) = 1))
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">

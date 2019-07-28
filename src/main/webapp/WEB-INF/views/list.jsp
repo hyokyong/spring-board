@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,11 +45,26 @@
 </c:if>
 <hr />
 
-<form method="get">
-    <input type="hidden" name="pg" value="1" />
+<form:form method="get" modelAttribute="pagination">
+    <input type="hidden" name="pg" value="1" /> <!-- 페이지네이션에서 페이지 바뀌게 하기 위함 -->
     <input type="hidden" name="bd" value="${ pagination.bd }" />
 
     <c:if test="${ pagination.bd == 1 || pagination.bd == 2 }">
+    
+     <div class="form-inline">
+        <form:select path="ss">
+            <form:option value="0" label="검색조건" />
+            <form:option value="1" label="제목+내용" />
+            <form:option value="2" label="작성자" />
+        </form:select>
+        <form:input path="st" />
+        <button type="submit" class="btn btn-small">검색</button>
+        <c:if test="${ pagination.ss != 0 }">
+            <a href="list.do?bd=${ pagination.bd }" class="btn btn-small">취소</a>
+        </c:if>
+        
+    </div>
+    
 	<table class="table table-bordered">
         <thead>
             <tr>
@@ -61,7 +77,7 @@
         </thead>
         <tbody>
             <c:forEach var="article" items="${ list }">
-                <tr data-url="reading.do?id=${ article.a_id }&${ pagination.queryString }">
+                <tr data-url="reading.do?aid=${ article.a_id }&cid=0&${ pagination.queryString }">
                     <td>${ article.a_id }</td>
                     <td>${ article.a_title }</td>
                     <td>${ article.u_name }</td>
@@ -77,6 +93,22 @@
     
     
     <c:if test="${ pagination.bd == 3 }">
+    
+    <div class="form-inline">
+        <form:select path="ss">
+            <form:option value="0" label="검색조건" />
+            <form:option value="1" label="사원번호" />
+            <form:option value="2" label="이름" />
+            <form:option value="3" label="부서" />
+            <form:option value="4" label="직급" />
+        </form:select>
+        <form:input path="st" />
+        <button type="submit" class="btn btn-small">검색</button>
+         <c:if test="${ pagination.ss != 0 }">
+            <a href="list.do?bd=3" class="btn btn-small">취소</a>
+        </c:if>
+    </div>
+    
     <table class="table table-bordered">
     <thead>
             <tr>
@@ -110,7 +142,7 @@
         </ul>
     </div>
     
-</form>
+</form:form>
 
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>

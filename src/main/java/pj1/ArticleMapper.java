@@ -4,11 +4,10 @@ import java.util.List;
 
 public interface ArticleMapper {
     List<Article> selectPage(Pagination pagination);
-    int selectCount(int boardId);
+    int selectCount(Pagination pagination);
     Article selectByAid(int a_id);
     void updateClick(int a_id);
     void insert(Article article);
-    
-    void update(User user);
-    void delete(int id);
+    void update(Article article);
+    void delete(int a_id);
 }

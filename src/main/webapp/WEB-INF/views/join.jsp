@@ -25,7 +25,7 @@
         <form:input path="u_id" />
 
         <label>비밀번호</label>
-        <form:input path="u_passwd" />
+        <form:input path="u_passwd" type="password"/>
         
         <label>이름</label>
         <form:input path="u_name" />

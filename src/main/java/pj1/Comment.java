@@ -8,7 +8,7 @@ public class Comment {
 	String c_writer;
 	String c_content;
 	Timestamp timestamp;
-	String a_id;
+	int a_id;
 	String u_name;
 	
 	public int getC_id() {
@@ -35,10 +35,10 @@ public class Comment {
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
-	public String getA_id() {
+	public int getA_id() {
 		return a_id;
 	}
-	public void setA_id(String a_id) {
+	public void setA_id(int a_id) {
 		this.a_id = a_id;
 	}
 	public String getU_name() {

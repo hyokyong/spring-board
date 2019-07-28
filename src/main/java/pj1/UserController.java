@@ -68,6 +68,8 @@ public class UserController {
     	user.setId(UserService.getCurrentUser().getId());
         String message = userService.validateBeforeUpdate(user);
         if (message == null) {
+        	String passwd = MyAuthenticationProvider.encryptPasswd(user.getU_passwd());
+        	user.setU_passwd(passwd);
             userMapper.update(user);
             UserService.setCurrentUser(user);
             model.addAttribute("success", "저장했습니다.");

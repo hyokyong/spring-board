@@ -1,5 +1,7 @@
 package pj1;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,8 @@ public class Pagination {
     int end;
     int recordCount;
     int boardId;
+    int srchType;
+    String srchText = "";
 
     public int getCurrentPage() {
         return currentPage;
@@ -59,6 +63,22 @@ public class Pagination {
 	public void setBoardId(int boardId) {
 		this.boardId = boardId;
 	}
+	
+	public int getSrchType() {
+        return srchType;
+    }
+
+    public void setSrchType(int srchType) {
+        this.srchType = srchType;
+    }
+
+    public String getSrchText() {
+        return srchText;
+    }
+
+    public void setSrchText(String srchText) {
+        this.srchText = srchText;
+    }
 
 	/* query string과 같은 이름의 메소드들 구현 */
     public int getPg() {
@@ -84,11 +104,29 @@ public class Pagination {
     public void setBd(int boardId) {
         this.boardId = boardId;
     }
+    
+    public int getSs() {
+        return srchType;
+    }
+
+    public void setSs(int srchType) {
+        this.srchType = srchType;
+    }
+
+    public String getSt() {
+        return srchText;
+    }
+
+    public void setSt(String srchText) {
+        this.srchText = srchText;
+    }
 
     /* 멤버 변수 값들을 quey string으로 출력하기 위한 메소드 */
-    public String getQueryString() {
-        return String.format("pg=%d&sz=%d&bd=%d", currentPage, pageSize, boardId);
+    public String getQueryString() throws UnsupportedEncodingException {
+        String temp = (srchText == null) ? "" : URLEncoder.encode(srchText, "UTF-8");
+        return String.format("pg=%d&sz=%d&bd=%d&ss=%d&st=%s", currentPage, pageSize, boardId, srchType, temp);
     }
+
 
     /* 화면 하단에 페이지 번호 링크들을 출력하기 위한 메소드와 클래스 */
     public List<Page> getPageList() {

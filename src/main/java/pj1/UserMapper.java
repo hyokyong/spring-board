@@ -7,7 +7,7 @@ public interface UserMapper {
     User selectById(int id);
     void insert(User user);
     List<User> selectPage(Pagination pagination);
-    int selectCount();
+    int selectCount(Pagination pagination);
     void update(User user);
     void delete(int id);
 }

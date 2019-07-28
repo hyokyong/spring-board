@@ -8,6 +8,10 @@
         INSERT comment (c_writer, c_content, a_id)
         VALUES (#{c_writer}, #{c_content}, #{a_id})
     </insert>
+    
+    <delete id="deleteAll">
+        DELETE FROM comment WHERE a_id = #{a_id}
+    </delete>
 
     <update id="update">
         UPDATE comment
@@ -23,6 +27,14 @@
     SELECT c.*, u.u_name
 	FROM comment c LEFT JOIN user u ON c.c_writer = u.u_id
 	WHERE c.a_id = #{a_id}
+	ORDER BY c_id
 	</select>
+	
+    <select id="selectByCid" resultType="pj1.Comment">
+    SELECT c.*, u.u_name
+	FROM comment c LEFT JOIN user u ON c.c_writer = u.u_id
+	WHERE c.c_id = #{c_id}
+	</select>
+	
 
 </mapper>

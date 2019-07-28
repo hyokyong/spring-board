@@ -18,10 +18,8 @@
 
 <div class="container">
 
-<form:form method="post" modelAttribute="comment">
+<form:form method="post" modelAttribute="c">
 
-	<input type="hidden" name="aid" value="${ article.a_id }" />
-	
 	<!-- 본문 -->
     <table class="table table-bordered">
         <thead>
@@ -45,23 +43,46 @@
                 <tr>
                     <td>${ comment.u_name }</td>
                     <td>${ comment.timestamp }</td>
+                    <c:if test= "${ comment.c_writer == u_id }">
+                    	<c:if test="${ c.c_id != comment.c_id }"> <!-- 댓글수정 안눌렀을때만 -->
+                    		<td><a href="reading.do?aid=${ comment.a_id }&cid=${ comment.c_id }&${ pagination.queryString }" class="btn">수정</a></td>
+                    		<td><a href="delete.do?aid=${ comment.a_id }&cid=${ comment.c_id }&${ pagination.queryString }" class="btn">삭제</a></td>
+                    	</c:if>
+                    </c:if>
                 </tr>
-                <tr>   
-                    <td>${ comment.c_content }</td>
+                <tr>
+                	<c:if test="${ c.c_id == 0 }"> <!-- 댓글수정 안눌렀을때 기본화면 -->   
+                    	<td>${ comment.c_content }</td>
+                    </c:if>
+                    <c:if test="${ c.c_id != 0 }"> <!-- 댓글수정 눌렀을때 -->
+                    	<c:if test="${ c.c_id != comment.c_id }">
+                    		<td>${ comment.c_content }</td>
+                    	</c:if>
+                    	<c:if test="${ c.c_id == comment.c_id }"> <!-- 댓글수정  -->
+                    		<td><form:textarea path="c_content"/></td>
+                    		<td><input type="submit" class="btn btn-primary" value="수정" /></td>
+                    		<td><a href="reading.do?aid=${ c.a_id }&cid=0&${ pagination.queryString }" class="btn">취소</a></td>
+                    	</c:if>
+                   </c:if>
                 </tr>
             </c:forEach>
             </tbody>
     </table>
 
  	<!-- 댓글등록 -->
-        <form:textarea path="c_content"/>
-        
-        <div>
-            <input type="submit" class="btn btn-primary" value="등록" />
-        </div>
+ 		<c:if test="${ c.c_id == 0 }">
+        	<form:textarea path="c_content"/>
+        	<div>
+            	<input type="submit" class="btn btn-primary" value="등록" />
+        	</div>
+        </c:if>
 </form:form>
     
      	<div>
+     		<c:if test="${ u_id == article.a_writer }">
+     	 		<a href="edit.do?aid=${ article.a_id }&${ pagination.queryString }" class="btn">수정</a>
+     			<a href="delete.do?aid=${ article.a_id }&cid=0&${ pagination.queryString }" class="btn">삭제</a>
+     		</c:if>
             <a href="write.do" class="btn">글쓰기</a>
             <a href="list.do?${ pagination.queryString }" class="btn">목록</a>
     	</div>

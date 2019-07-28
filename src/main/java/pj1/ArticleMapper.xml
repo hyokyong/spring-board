@@ -5,20 +5,28 @@
 <mapper namespace="pj1.ArticleMapper">
 
     <select id="selectPage" resultType="pj1.Article">
+    <![CDATA[
         SELECT a.*, u.u_name
         FROM article a LEFT JOIN user u ON a.a_writer = u.u_id
-        WHERE a.b_id = #{boardId}
+        WHERE ( (#{srchType} = 0) OR
+                (#{srchType} = 1 AND (INSTR(a.a_title, #{srchText}) > 0 OR INSTR(a.a_content, #{srchText}) > 0)) OR
+                (#{srchType} = 2 AND INSTR(u.u_name, #{srchText}) = 1) )
+              AND a.b_id = #{boardId}
         group by a.a_id
         order by a.a_id desc
-        limit #{start}, #{end}    
-    </select>
-
-    <select id="selectCount" resultType="int">
-        SELECT COUNT(*)
-        FROM article
-        WHERE b_id = #{boardId}
+        limit #{start}, #{end}  
+     ]]>  
     </select>
     
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(*)
+        FROM article a LEFT JOIN user u ON a.a_writer = u.u_id
+        WHERE ( (#{srchType} = 0) OR
+                (#{srchType} = 1 AND (INSTR(a.a_title, #{srchText}) > 0 OR INSTR(a.a_content, #{srchText}) > 0)) OR
+                (#{srchType} = 2 AND INSTR(u.u_name, #{srchText}) = 1) )
+              AND a.b_id = #{boardId}
+    </select>
+   
     <select id="selectByAid" resultType="pj1.Article">
         SELECT a.*, u.u_name
         FROM article a LEFT JOIN user u ON a.a_writer = u.u_id
@@ -37,13 +45,12 @@
     </insert>
 
     <update id="update">
-        UPDATE [User] SET
-            loginId = #{loginId},
-            name = #{name},
-            email = #{email},
-            userType = #{userType},
-            departmentId = #{departmentId}
-        WHERE id = #{id}
+        UPDATE article
+        SET a_writer = #{a_writer},
+            a_title = #{a_title},
+            a_content = #{a_content},
+            b_id = #{b_id}
+        WHERE a_id = #{a_id}
     </update>
 
     <delete id="delete">

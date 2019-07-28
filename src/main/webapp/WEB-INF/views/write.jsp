@@ -20,7 +20,7 @@
 <hr />
 
 <form:form method="post" modelAttribute="article">
-    
+
         <label>제목</label>
         <form:input path="a_title"/>
     	<form:textarea path="a_content"/>
