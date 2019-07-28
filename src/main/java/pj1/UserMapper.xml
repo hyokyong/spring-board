@@ -22,8 +22,8 @@
         WHERE (#{srchType} = 0) OR
               (#{srchType} = 1 AND u.u_id = #{srchText}) OR
               (#{srchType} = 2 AND INSTR(u.u_name, #{srchText}) = 1) OR
-              (#{srchType} = 3 AND t.t_name = #{srchText}) OR
-              (#{srchType} = 4 AND d.d_name = #{srchText})
+              (#{srchType} = 3 AND d.d_name = #{srchText}) OR
+              (#{srchType} = 4 AND t.t_name = #{srchText})
         group by u.u_id
         order by u.u_id
         limit #{start}, #{end}    
@@ -35,8 +35,8 @@
         WHERE (#{srchType} = 0) OR
               (#{srchType} = 1 AND u.u_id = #{srchText}) OR
               (#{srchType} = 2 AND INSTR(u.u_name, #{srchText}) = 1) OR
-              (#{srchType} = 3 AND t.t_name = #{srchText}) OR
-              (#{srchType} = 4 AND d.d_name = #{srchText})
+              (#{srchType} = 3 AND d.d_name = #{srchText}) OR
+              (#{srchType} = 4 AND t.t_name = #{srchText})
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">

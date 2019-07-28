@@ -51,20 +51,6 @@
 
     <c:if test="${ pagination.bd == 1 || pagination.bd == 2 }">
     
-     <div class="form-inline">
-        <form:select path="ss">
-            <form:option value="0" label="검색조건" />
-            <form:option value="1" label="제목+내용" />
-            <form:option value="2" label="작성자" />
-        </form:select>
-        <form:input path="st" />
-        <button type="submit" class="btn btn-small">검색</button>
-        <c:if test="${ pagination.ss != 0 }">
-            <a href="list.do?bd=${ pagination.bd }" class="btn btn-small">취소</a>
-        </c:if>
-        
-    </div>
-    
 	<table class="table table-bordered">
         <thead>
             <tr>
@@ -89,25 +75,31 @@
     </table>
     
     <a href="write.do?${ pagination.queryString }" class="btn">글쓰기</a>
-    </c:if>
     
-    
-    <c:if test="${ pagination.bd == 3 }">
+    <div class="pagination pagination-small pagination-centered">
+        <ul>
+            <c:forEach var="page" items="${ pagination.pageList }">
+                <li class='${ page.cssClass }'><a data-page="${ page.number }">${ page.label }</a></li>
+            </c:forEach>
+        </ul>
+    </div>
     
     <div class="form-inline">
         <form:select path="ss">
             <form:option value="0" label="검색조건" />
-            <form:option value="1" label="사원번호" />
-            <form:option value="2" label="이름" />
-            <form:option value="3" label="부서" />
-            <form:option value="4" label="직급" />
+            <form:option value="1" label="제목+내용" />
+            <form:option value="2" label="작성자" />
         </form:select>
         <form:input path="st" />
         <button type="submit" class="btn btn-small">검색</button>
-         <c:if test="${ pagination.ss != 0 }">
-            <a href="list.do?bd=3" class="btn btn-small">취소</a>
+        <c:if test="${ pagination.ss != 0 }">
+            <a href="list.do?bd=${ pagination.bd }" class="btn btn-small">취소</a>
         </c:if>
     </div>
+    </c:if>
+    
+    
+    <c:if test="${ pagination.bd == 3 }">
     
     <table class="table table-bordered">
     <thead>
@@ -131,9 +123,7 @@
             </c:forEach>
         </tbody>
     </table>
-    </c:if>
-  
-
+    
     <div class="pagination pagination-small pagination-centered">
         <ul>
             <c:forEach var="page" items="${ pagination.pageList }">
@@ -142,6 +132,22 @@
         </ul>
     </div>
     
+    <div class="form-inline">
+        <form:select path="ss">
+            <form:option value="0" label="검색조건" />
+            <form:option value="1" label="사원번호" />
+            <form:option value="2" label="이름" />
+            <form:option value="3" label="부서" />
+            <form:option value="4" label="직급" />
+        </form:select>
+        <form:input path="st" />
+        <button type="submit" class="btn btn-small">검색</button>
+         <c:if test="${ pagination.ss != 0 }">
+            <a href="list.do?bd=3" class="btn btn-small">취소</a>
+        </c:if>
+    </div>
+    </c:if>
+  
 </form:form>
 
 </div>
