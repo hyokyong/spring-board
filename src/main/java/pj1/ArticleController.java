@@ -1,7 +1,13 @@
 package pj1;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.file.Paths;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class ArticleController {
@@ -18,6 +25,7 @@ public class ArticleController {
     @Autowired UserMapper userMapper;
     @Autowired DepartmentMapper departmentMapper;
     @Autowired TypeMapper typeMapper;
+    @Autowired FileMapper fileMapper;
     @Autowired UserService userService;
     
     //목록
@@ -62,6 +70,15 @@ public class ArticleController {
         model.addAttribute("list", c);
         model.addAttribute("u_id", u_id);
         
+        //파일보이기
+        File f = fileMapper.selectByAid(aid);
+        if(f == null){
+        	File file = new File();
+        	model.addAttribute("file", file);
+        }
+        else
+        	model.addAttribute("file", f);
+  
         return "reading";
     }
 
@@ -78,6 +95,7 @@ public class ArticleController {
         	comment.setC_id(cid);
         	commentMapper.update(comment);
         }
+        model.addAttribute("files", fileMapper.selectByAid(aid));
         return "redirect:reading.do?aid="+aid+"&cid=0&"+pagination.getQueryString();
     }
     
@@ -85,36 +103,77 @@ public class ArticleController {
     @RequestMapping(value="write.do", method=RequestMethod.GET)
     public String write(Model model, Pagination pagination) {
     	Article article = new Article();
+    	File file = new File();
     	model.addAttribute("article", article);
+    	model.addAttribute("file", file);
         return "write";
     }
 
     @RequestMapping(value="write.do", method=RequestMethod.POST)
-    public String write(Model model, Pagination pagination, Article article) {
+    public String write(Model model, Pagination pagination, Article article, @RequestParam("file") MultipartFile uploadedFile) throws IOException {
     	article.setB_id(pagination.getBd());
         article.setA_writer(UserService.getCurrentUser().getU_id());
         articleMapper.insert(article);
+        
+        //파일업로드
+        if (uploadedFile.getSize() > 0 ) {
+            File file = new File();
+            file.setA_id(article.getA_id());
+            file.setU_id(UserService.getCurrentUser().getU_id());
+            file.setF_name(Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString());
+            file.setF_size((int)uploadedFile.getSize());
+            file.setData(uploadedFile.getBytes());
+            fileMapper.insert(file);
+        }
         return "redirect:list.do?bd=" + pagination.getBd();
     }
     
     //글수정
     @RequestMapping(value="edit.do", method = RequestMethod.GET)
-    public String edit(@RequestParam("aid") int aid, Pagination pagination, Model model) {
+    public String edit(@RequestParam("aid") int aid, @RequestParam("fid") int fid, Pagination pagination, Model model) {
     	Article a = articleMapper.selectByAid(aid);
         model.addAttribute("article", a);
-       
+        
+        //글수정버튼 눌렀을때
+        if(fid == 0){
+        	File f = fileMapper.selectByAid(aid);
+        	if(f == null){
+        		File file = new File();
+        		model.addAttribute("file", file);
+        	}
+        	else
+        		model.addAttribute("file", fileMapper.selectByAid(aid));	
+        }
+        //업로드파일삭제
+        else{
+        	fileMapper.delete(fid);
+        	File file = new File();
+        	model.addAttribute("file", file);
+        }
+        
         return "write";
     }
 
     @RequestMapping(value="edit.do", method = RequestMethod.POST)
-    public String edit(@RequestParam("aid") int aid, Article article, Pagination pagination, Model model) throws UnsupportedEncodingException {
+    public String edit(@RequestParam("aid") int aid, Article article, Pagination pagination, Model model, @RequestParam("file") MultipartFile uploadedFile) throws IOException {
         article.setA_id(aid);
     	article.setA_writer(UserService.getCurrentUser().getU_id());
         article.setB_id(pagination.getBd());
     	articleMapper.update(article);
+    	
+    	//파일수정업로드
+    	 if (uploadedFile.getSize() > 0 ) {
+             File file = new File();
+             file.setA_id(article.getA_id());
+             file.setU_id(UserService.getCurrentUser().getU_id());
+             file.setF_name(Paths.get(uploadedFile.getOriginalFilename()).getFileName().toString());
+             file.setF_size((int)uploadedFile.getSize());
+             file.setData(uploadedFile.getBytes());
+             fileMapper.insert(file);
+         }
         return "redirect:reading.do?aid="+aid+"&cid=0&"+pagination.getQueryString();
     }
-    
+  
     //글삭제, 댓글삭제
     @RequestMapping(value="delete.do")
     public String delete(@RequestParam("aid") int aid, @RequestParam("cid") int cid, Pagination pagination, Model model) throws UnsupportedEncodingException {
@@ -132,6 +191,21 @@ public class ArticleController {
     	}
     	 
     }
+    
+    //파일 다운로드
+    @RequestMapping("download.do")
+    public void download(@RequestParam("fid") int fid, HttpServletResponse response) throws IOException {
+        File file = fileMapper.selectByFid(fid);
+        if (file == null) return;
+        String fileName = URLEncoder.encode(file.getF_name(),"UTF-8");
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
+        try (BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+            output.write(file.getData());
+        }
+    }
+
+
     
     
 

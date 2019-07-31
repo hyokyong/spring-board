@@ -12,6 +12,7 @@
 <style>
   input[name=a_title] { width: 700px; border-style: groove; margin: 4px;}
   textarea { width: 80%; height: 200px; }
+  input[type=file] { width: 600px; margin: 5px 0 5px 0; }
 </style>
 </head>
 
@@ -19,12 +20,19 @@
 <h2>${ pagination.boardId == 1 ? "공지사항" : "자유게시판" }</h2>
 <hr />
 
-<form:form method="post" modelAttribute="article">
-
-        <label>제목</label>
-        <form:input path="a_title"/>
-    	<form:textarea path="a_content"/>
-    
+<form method="post" enctype="multipart/form-data">
+    <div>
+        <span>제목</span>
+        <input type="text" name="a_title" value="${ article.a_title }"/>
+    </div>
+    <textarea id="a_content" name="a_content">${ article.a_content }</textarea>
+    <div>
+        <span>파일</span>
+        <input type="file" name="file" />${ file.f_name }&nbsp;
+        	<c:if test = "${ file.f_id != 0 && article.a_id != 0}">
+        		<a href="edit.do?aid=${ article.a_id }&fid=${ file.f_id }&${ pagination.queryString }">x</a>
+        	</c:if>
+    </div>
     <div>
         <button type="submit" class="btn btn-primary">
             <i class="icon-ok icon-white"></i> 저장
@@ -33,5 +41,7 @@
             <i class="icon-ban-circle"></i> 취소
         </a>
     </div>
-</form:form>
+</form>
+
+
 </body>

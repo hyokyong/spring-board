@@ -31,6 +31,13 @@
             </tr>
         </thead>
         <tbody>
+        	<c:if test = "${ file.f_id != 0 }">
+        	<tr>
+        		<td>첨부파일<a class="btn btn-small" href="download.do?fid=${ file.f_id }"><i class="icon icon-file"></i> ${ file.f_name }</a>
+    			</td>
+    		</tr>
+    		</c:if>
+        	<tr>
                 <td>${ article.a_content }</td>
             </tr>
         </tbody>
@@ -80,10 +87,10 @@
     
      	<div>
      		<c:if test="${ u_id == article.a_writer }">
-     	 		<a href="edit.do?aid=${ article.a_id }&${ pagination.queryString }" class="btn">수정</a>
+     	 		<a href="edit.do?aid=${ article.a_id }&fid=0&${ pagination.queryString }" class="btn">수정</a>
      			<a href="delete.do?aid=${ article.a_id }&cid=0&${ pagination.queryString }" class="btn">삭제</a>
      		</c:if>
-            <a href="write.do" class="btn">글쓰기</a>
+            <a href="write.do${ pagination.queryString }" class="btn">글쓰기</a>
             <a href="list.do?${ pagination.queryString }" class="btn">목록</a>
     	</div>
    

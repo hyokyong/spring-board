@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+             "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pj1.FileMapper">
+
+    <select id="selectByAid" resultType="pj1.File">
+        SELECT f_id, a_id, u_id, f_name, f_size, timestamp
+        FROM   file
+        WHERE  a_id = #{a_id}
+    </select>
+
+    <select id="selectByFid" resultType="pj1.File">
+        SELECT *
+        FROM   file
+        WHERE  f_id = #{f_id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="f_id">
+        INSERT INTO file (a_id, u_id, f_name, f_size, data)
+        VALUES (#{a_id}, #{u_id}, #{f_name}, #{f_size}, #{data})
+    </insert>
+    
+    <update id="update">
+        UPDATE file
+        SET f_name = #{f_name},
+        f_size = #{f_size},
+        data = #{data}
+        WHERE a_id = #{a_id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM file WHERE f_id = #{f_id}
+    </delete>
+
+    <delete id="deleteByAid">
+        DELETE FROM file WHERE a_id = #{a_id}
+    </delete>
+
+</mapper>
